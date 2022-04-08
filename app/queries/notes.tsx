@@ -12,7 +12,7 @@ export const fetchNotes = gql`
 `;
 
 export const createNote = gql`
-  mutation CreateNote($title: String, $description: String) {
+  mutation Create($title: String, $description: String) {
     insert_notes(objects: {
       title: $title
       description: $description

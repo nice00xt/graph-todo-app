@@ -16,26 +16,40 @@ export type NoteTypes = {
 export default function AddNote() {
   const { data, refetch } = useQuery(fetchNotes);
   const [onDeleteNote] = useMutation(deleteNote);
-  const [noteId, setNoteId] = useState(null);
   const [noteList, setNotes] = useState([]);
-
+  const [showAlert, setAlert] = useState(false);
+  
   useEffect(() => {
     if (data) setNotes(data.notes);
   }, [data]);
 
-  const handleDeleteNote = async () => {
+  const handleDeleteNote = async (id: number) => {
     try {
       const res = await onDeleteNote({
-        variables: { id: noteId },
+        variables: { id },
       });
     } finally {
       refetch();
-      setNoteId(null);
     }
   };
 
+  const handleShowAlert = () => {
+    setAlert(true);
+    setTimeout(() => {
+      setAlert(false);
+    }, 3000);
+  }
+
   return (
     <Container>
+      {showAlert && (
+        <div class="alert alert-success shadow-lg mt-9">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>Note Successfully deleted!</span>
+          </div>
+        </div>
+      )}
       <Modal
         modalID="delete-item"
         title="So... you want to delete this note"
@@ -48,7 +62,6 @@ export default function AddNote() {
           <label
             htmlFor="delete-item"
             className="btn btn-primary"
-            onClick={handleDeleteNote}
           >
             Yep do it
           </label>
@@ -69,7 +82,8 @@ export default function AddNote() {
                 id={id}
                 title={title}
                 description={description}
-                setNoteId={setNoteId}
+                handleDeleteNote={handleDeleteNote}
+                onShowAlert={handleShowAlert}
               />
             ))}
           </ul>
