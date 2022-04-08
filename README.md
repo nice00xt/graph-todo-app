@@ -1,6 +1,11 @@
-# Welcome to Remix!
+# Simple GraphQL Todo App
 
-- [Remix Docs](https://remix.run/docs)
+<img width="979" alt="todo-app-graphql" src="https://user-images.githubusercontent.com/2046454/162504129-08084597-face-4c02-8d19-ea5d2901d83a.png">
+
+
+- Remix framework
+- graphQL
+- Hasura graphQL engine
 
 ## Development
 
